@@ -4,7 +4,7 @@ EXPOSE 8080
 RUN apk update && apk add git
 
 WORKDIR /go/src/app
-COPY ./bff .
+COPY . .
 RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o /go/bin/app .
 
