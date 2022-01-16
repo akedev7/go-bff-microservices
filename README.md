@@ -1,13 +1,3 @@
 
-
-To build docker file locally, for example.
-```bash
-docker build -t akedev7/go-ms-bff:latest -f "bff/Dockerfile" .
-```
-
-Then you can run using
-
-```bash
-docker network create akedev7
-docker-compose up -d
-```
+To build docker images locally, you can run build-images.sh
+Then you can run starat-services.sh to start dockers container from docker images.
