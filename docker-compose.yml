@@ -9,6 +9,19 @@ services:
     ports:
       - 8080:8080
     command: /main
+    env_file:
+      - .env
+  quote-service:
+    container_name: "quote-service_go"
+    image: akedev7/go-ms-quote:latest
+    networks:
+      - akedev7
+    ports:
+      - 50052:50052
+    command: /main
+    restart: always
+    env_file:
+      - .env
 
 networks:
   akedev7:

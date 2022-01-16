@@ -1,24 +1,42 @@
 package main
 
 import (
+	"context"
 	"errors"
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
+	"github.com/akedev7/go-bff-microservices/bff/client"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
-func UserRegister(router *gin.RouterGroup) {
-	router.GET("/:id", GetUserDetails)
+var (
+	timeout      = time.Second
+	quote_client client.QuoteClient
+)
+
+func QuoteRegister(router *gin.RouterGroup) {
+	router.GET("/:id", GetQuote)
 
 }
 
-func GetUserDetails(c *gin.Context) {
+func GetQuote(c *gin.Context) {
+
 	id, err := getParam(c, "id")
-	response(c, id, err)
-	return
+
+	if err != nil {
+		response(c, nil, err)
+		return
+	}
+
+	ctx, cancel := context.WithTimeout(c, timeout)
+	defer cancel()
+
+	data, err := quote_client.GetQuote(id, &ctx)
+	response(c, data, err)
 }
 
 func getParam(c *gin.Context, param string) (string, error) {
@@ -47,7 +65,7 @@ func main() {
 	r.Use(cors.Default())
 
 	api := r.Group("/api")
-	UserRegister(api.Group("/users"))
+	QuoteRegister(api.Group("/quotes"))
 
 	r.Run()
 }
