@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  bff-service:
+    container_name: "bff-service_go"
+    image: akedev7/go-ms-bff:latest
+    networks:
+      - akedev7
+    ports:
+      - 8080:8080
+    command: /main
+
+networks:
+  akedev7:
+    external: true
